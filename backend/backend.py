@@ -4,8 +4,6 @@ from openai import OpenAI
 
 app = Flask(__name__)
 CORS(app)
-# Authorization: Bearer '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'
-
 client = OpenAI()
 @app.route('/translate', methods=['POST'])
 def translate():
