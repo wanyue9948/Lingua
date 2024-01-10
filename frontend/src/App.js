@@ -1,4 +1,4 @@
-// import logo from './logo.svg';
+// C:\Users\wanyu\translation-app;
 import './App.css';
 import React, { useState } from 'react';
 
