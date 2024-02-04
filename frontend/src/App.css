@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #283c64;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,11 +28,82 @@
   color: #61dafb;
 }
 
+.language-selectors select {
+  /* position: absolute;
+  top: 200px;
+  left: 100px; */
+  font-size: 0.8em; /* Adjust as needed */
+  width: auto; /* Adjust to fit content or to a specific width */
+}
+
+.input-box {
+  text-align: left;
+  font-size: 0.8em;
+  padding: 6px;
+  width: 100%; /* Take up the full width of its container */
+}
+
+
+
+/* Enlarge and reposition the translate button */
+.translate-button {
+  font-size: 0.8em; /* Adjust as needed */
+  padding: 10
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.translation-section,
+.grammar-section {
+  flex: 1;
+  margin: 10px;
+  padding: 20px;
+}
+
+.result-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 0.8em; /* Smaller font size */
+  background-color: #ccc;
+  color: #000000;
+}
+
+.result-box2 {
+  width: 100%;
+  border: 1px solid #ccc;
+  
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 0.6em; /* Smaller font size */
+  background-color: #ccc;
+  color: #000000;
+}
+
+.author {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  font-style: italic;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .content,
+  .author {
+    flex-direction: column;
   }
 }

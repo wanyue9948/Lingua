@@ -9,4 +9,12 @@ completion = client.chat.completions.create(
   ]
 )
 
+response = client.audio.speech.create(
+    model="tts-1",
+    voice="onyx",
+    input= "今天我很高兴也很疲惫",
+)
+
+response.stream_to_file("output.mp3")
+
 print(completion.choices[0].message.content)
