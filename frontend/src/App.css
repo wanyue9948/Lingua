@@ -36,14 +36,27 @@
   width: auto; /* Adjust to fit content or to a specific width */
 }
 
+.chatbox-container {
+  position: relative; /* This is crucial */
+  display: inline-block; /* Or block, depending on your layout */
+  width: 100%;
+}
+
 .input-box {
   text-align: left;
   font-size: 0.8em;
   padding: 6px;
-  width: 100%; /* Take up the full width of its container */
+  width: 100%; /* Adds scrollbar if content overflows */
 }
 
-
+.clear-button {
+  position: absolute;
+  top: 1px; /* Positions at the top-right corner */
+  right: 1px; /* Adjust based on preference, you might want it slightly inside */
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
 
 /* Enlarge and reposition the translate button */
 .translate-button {

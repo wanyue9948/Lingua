@@ -3,6 +3,10 @@ from flask_cors import CORS
 from openai import OpenAI
 import os
 import azure.cognitiveservices.speech as speechsdk
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +18,10 @@ voice_names = {
     'en': 'en-US-RyanMultilingualNeural'
 }
 
-client = OpenAI()
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("The OPENAI_API_KEY environment variable must be set.")
+client = OpenAI(api_key=api_key)
 # speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
 # audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 
@@ -47,15 +54,17 @@ def translate():
     # Extracting data from POST request
     data = request.json
     source_text = data['text']
+    source_language = data['sourceLang']
     target_language = data['targetLang']
 
     # Constructing the message for translation
     # Adjust the prompt as needed for your translation task
     prompt = f"Please ignore all previous instructions. Please respond only in the {target_language} language.\
       Do not explain what you are doing. Do not self reference. You are an expert translator. \
-      Translate the following text to the {target_language} using vocabulary \
-      and expressions of a native {target_language} speaker.Translate the following text : '{source_text}'. Don't say anything like:As an expert translator, \
-        I will provide the translation of the given text"
+      Just give me the answer of the translation, no other words\
+      Translate the following text from {source_language} to the {target_language} using vocabulary \
+      and expressions of a native {target_language} speaker.Translate the following text : '{source_text}'."
+
 
     # Make an API call to OpenAI's Chat Completions
     try:
@@ -82,18 +91,21 @@ def translate():
 def explain():
     # 获取 POST 请求中的数据
     data = request.json
-    text_to_explain = data['text']
-    target_language = data['targetLang']
+    text_to_explain = data['to_explain']
+    source_language = data['sourceLang']
+    explain_language = data['exLang']
 
 
-    prompt = f"Explain the following sentence: '{text_to_explain}' with grammar and vocubularies in {target_language}"
+    prompt = f"Explain the following {source_language} sentence: '{text_to_explain}' with grammar and vocubularies in {explain_language}, \
+        your audience can only understand {explain_language} and a native {explain_language} speaker, \
+                so make sure to expain everything only in {explain_language}."
     
     # 调用 ChatGPT API 进行解释
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo", 
             messages=[
-                {"role": "system", "content": "You are a language teacher. Explain the following sentence with grammar and vocubularies in {target_language}"},
+                {"role": "system", "content": "You are a language teacher."},
                 {"role": "user", "content": prompt}
             ]
         )

@@ -7,6 +7,7 @@ function App() {
   const [translatedText, setTranslatedText] = useState(''); // State to hold translated text
   const [sourceLang, setSourceLang] = useState('en'); // State to hold source language
   const [targetLang, setTargetLang] = useState('cn'); // State to hold target language
+  const [exLang, set_exLang] = useState('en');
   const [to_explain, setto_explain] = useState(''); // State to hold the explanation
   const [explanation, setExplanation] = useState(''); // State to hold the explanation
 
@@ -15,6 +16,7 @@ function App() {
     // Define the data you'll send
     const dataToSend = {
       text: text, // text from state
+      sourceLang: sourceLang, 
       targetLang: targetLang // target language from state
     };
     
@@ -41,7 +43,9 @@ function App() {
     // Define the data you'll send
     const dataToSend = {
       text: text, // text from state
-      targetLang: targetLang // target language from state
+      sourceLang: sourceLang,
+      to_explain: to_explain,
+      exLang: exLang // target language from state
     };
     
     // Send the data to your backend
@@ -84,6 +88,17 @@ const handleSpeak = () => {
     console.error('Error during speech synthesis:', error);
   });
 };
+
+const handleClear_a = () => {
+  setText(''); // Set text to empty string to clear the content
+};
+
+
+const handleClear_b = () => {
+  setto_explain(''); // Set text to empty string to clear the content
+};
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -110,20 +125,27 @@ const handleSpeak = () => {
               {/* Add more language options here */}
             </select>
           </div>
+
+
+          <div className="chatbox-container">
           <textarea
             className="input-box" 
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Type text to translate here..."
           />
+          <button className="clear-button" onClick={handleClear_a}>X</button> {/* Button to clear the text */}
+          </div>
+
+
           <button className="translate-button" onClick={handleTranslate}>Translate</button>
           <p>Translation:</p>
           <div className="result-box">{translatedText}</div>
           <button className="translate-button" onClick={handleSpeak}>Speak</button>
           </div>
-          <div className="grammar-section">
-            <div className="language-selectors">
-              <select value={targetLang} onChange={(e) => setTargetLang(e.target.value)}>
+          <div className="grammar-section"> 
+          <div className="language-selectors">
+              <select value={exLang} onChange={(e) => set_exLang(e.target.value)}>
                 {/* Options should reflect available languages */}
                 <option value="en">English</option>
                 <option value="fr">French</option>
@@ -133,12 +155,16 @@ const handleSpeak = () => {
                 {/* Add more language options here */}
               </select>
               </div>
+          <div className="chatbox-container">  
           <textarea
             className="input-box" 
             value={to_explain}
             onChange={(e) => setto_explain(e.target.value)}
             placeholder="Type text to explain here..."
           />
+          <button className="clear-button" onClick={handleClear_b}>X</button> {/* Button to clear the text */}
+          </div>
+
           <button className="translate-button" onClick={handleExplain}>Explain</button>
           <p>Grammar assistant:</p>
           <div className="result-box2">{explanation}</div>
